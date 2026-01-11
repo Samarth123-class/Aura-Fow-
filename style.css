@@ -14,7 +14,7 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg-color
 
 /* BOOT & LOGIN */
 #boot-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 1s; }
-.boot-logo-img { width: 150px; height: 150px; border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 30px rgba(108, 99, 255, 0.5); border: 2px solid rgba(255,255,255,0.2); object-fit: cover; }
+.boot-logo-img { width: 100px; height: 100px; border-radius: 50%; animation: pulse 2s infinite; box-shadow: 0 0 30px rgba(108, 99, 255, 0.5); border: 2px solid rgba(255,255,255,0.2); object-fit: cover; }
 @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 30px rgba(108, 99, 255, 0.5); } 50% { transform: scale(1.05); box-shadow: 0 0 50px rgba(108, 99, 255, 0.8); } 100% { transform: scale(1); box-shadow: 0 0 30px rgba(108, 99, 255, 0.5); } }
 
 .login-wrapper { height: 100vh; width: 100%; background: radial-gradient(circle at 10% 20%, #2b3db5, #1a0b2e 90%); display: flex; align-items: center; justify-content: center; }
@@ -32,7 +32,7 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg-color
 .dashboard-layout { display: flex; height: 100vh; }
 .sidebar { width: 250px; background: var(--sidebar-bg); color: white; display: flex; flex-direction: column; padding: 20px 0; }
 .brand { font-size: 1.3rem; font-weight: bold; padding: 0 25px 30px 25px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; color: white; display: flex; align-items: center; }
-.sidebar-logo { width: 35px; height: 35px; border-radius: 50%; margin-right: 12px; object-fit: cover; }
+.sidebar-logo { width: 28px; height: 28px; border-radius: 50%; margin-right: 12px; object-fit: cover; }
 .menu a { padding: 15px 25px; text-decoration: none; color: #a0a0a0; display: flex; align-items: center; gap: 10px; transition: 0.3s; }
 .menu a:hover, .menu a.active { background: rgba(255,255,255,0.05); color: white; border-left: 4px solid var(--primary); }
 .logout-link { margin-top: auto; padding: 20px 25px; color: #a0a0a0; text-decoration: none; display: flex; align-items: center; gap: 10px; }
@@ -42,7 +42,7 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg-color
 .content-section { max-width: 1000px; margin: 0 auto; }
 .hidden { display: none !important; }
 
-/* CARDS & UI ELEMENTS */
+/* CARDS */
 .surveillance-card { background: #FFF3CD; border: 1px solid #FFEeba; border-radius: 10px; overflow: hidden; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 .log-header { background: #FFECB5; padding: 15px 20px; font-weight: bold; color: #856404; border-bottom: 1px solid #FFEeba; display: flex; align-items: center; gap: 10px; }
 .log-body { list-style: none; padding: 20px; margin: 0; color: #856404; max-height: 200px; overflow-y: auto; }
@@ -56,6 +56,7 @@ body { margin: 0; font-family: 'Poppins', sans-serif; background: var(--bg-color
 .simple-list li { padding: 10px 0; border-bottom: 1px solid #eee; font-size: 0.9rem; color: #555; }
 .join-link { background: var(--warning); color: white; text-decoration: none; padding: 4px 10px; border-radius: 4px; font-size: 0.75rem; margin-left: 10px; }
 
+/* ADMIN DB */
 .add-user-row { background: white; padding: 20px; border-radius: 10px; display: flex; gap: 10px; margin-bottom: 30px; }
 .add-user-row input, .add-user-row select { padding: 10px; border: 1px solid #eee; border-radius: 5px; flex: 1; outline: none; }
 .btn-create { background: var(--primary); color: white; border: none; padding: 0 25px; border-radius: 5px; cursor: pointer; font-weight: bold; }
