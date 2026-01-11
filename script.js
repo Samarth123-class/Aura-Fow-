@@ -45,7 +45,7 @@ function enterSystem(username) {
         document.getElementById('welcome-msg-master').innerText = `${currentUser.role} Dashboard`;
         if(currentUser.role === 'Developer') renderDevTimetableLog();
         renderSurveillanceLog();
-        renderUserList(); // Load database
+        renderUserList();
     } else {
         document.getElementById('generic-welcome').classList.remove('hidden');
         document.getElementById('welcome-msg').innerText = `Welcome, ${currentUser.name}`;
@@ -98,8 +98,8 @@ function addMarks() {
     if(student && student.role === 'Student' && sub && score) {
         if(!users[student.id].marks) users[student.id].marks = [];
         users[student.id].marks.push({ subject: sub, score: score });
-        saveDB(); alert(`Mark Added for ${student.name}!`);
-    } else alert("Student Not Found or Invalid Input");
+        saveDB(); alert(`Mark Added!`);
+    } else alert("Student Not Found");
 }
 
 function clearMarks() {
@@ -124,7 +124,7 @@ function loadClassroom() {
             html += `<tr><td>${key}</td><td>${u.name}</td><td><button class="btn-sm-action btn-green" onclick="quickAttend('${key}')">Present</button></td></tr>`;
         }
     });
-    list.innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No students found.</td></tr>";
+    list.innerHTML = html || "<tr><td colspan='3' style='text-align:center;'>No students.</td></tr>";
 }
 function quickAttend(id) { users[id].msgs.push(`Attendance: Present`); saveDB(); alert("Marked"); }
 
@@ -152,11 +152,9 @@ function registerUser() {
     const n = document.getElementById('new-name').value;
     const r = document.getElementById('new-role').value;
     const p = "123"; 
-    
     let cls = "", sec = "", sub = "", tOf = "";
     if(r === 'Student') { cls = document.getElementById('new-class').value; sec = document.getElementById('new-sec').value; }
     if(r === 'Teacher') { sub = document.getElementById('new-subject').value; tOf = document.getElementById('new-class-teacher').value; }
-
     if (u) {
         users[u] = { pass: p, role: r, name: n, classGrade: cls, section: sec, subject: sub, classTeacherOf: tOf, msgs: [], files: [], marks: [] };
         saveDB(); renderUserList(); alert("Created (Pass: 123)");
@@ -168,7 +166,6 @@ function renderUserList() {
     list.innerHTML = "";
     Object.keys(users).forEach(key => {
         const targetRole = users[key].role.toUpperCase();
-        // Master/Friday see ALL. Admin hides hidden roles.
         if (currentUser.role !== 'Master' && ['MASTER','DEVELOPER'].includes(targetRole)) return; 
 
         const u = users[key];
@@ -217,7 +214,6 @@ function renderStudentData() {
     document.getElementById('s-msg-list').innerHTML = currentUser.msgs.length ? currentUser.msgs.reverse().map(m => `<li>${m}</li>`).join('') : "<li>No notices.</li>";
     document.getElementById('s-file-list').innerHTML = currentUser.files.length ? currentUser.files.reverse().map(f => `<li><a href="#" onclick="alert('Downloading ${f}...')">📎 ${f}</a></li>`).join('') : "<li>No files.</li>";
     
-    // CALC PERCENTAGE
     const tbody = document.getElementById('s-report-body');
     let total = 0;
     if(currentUser.marks && currentUser.marks.length > 0) {
