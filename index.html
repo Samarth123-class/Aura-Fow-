@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuraFlow System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="boot-screen">
+        <div class="logo-circle"><div class="boot-logo-text">AF</div></div>
+        <h2 style="color: white; margin-top: 20px;">AURA OF FLOW</h2>
+        <p style="color: #ccc; margin-top: 10px;">System Initializing...</p>
+    </div>
+
+    <div id="auth-container" class="login-wrapper">
+        <div class="exclusive-card">
+            <div class="header-text">
+                <h3>WELCOME BACK</h3>
+                <h1>EXCLUSIVE MEMBER</h1>
+            </div>
+
+            <div class="login-form">
+                <input type="text" id="username" class="dark-input" placeholder="Email / Username">
+                <input type="password" id="password" class="dark-input" placeholder="Password">
+                
+                <button class="btn-black" onclick="login()">Proceed to my Account</button>
+                <p id="login-error" class="error-msg">Invalid Credentials</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-container" class="dashboard-layout hidden">
+        
+        <aside class="sidebar">
+            <div class="brand">AuraFlow</div>
+            <nav class="menu">
+                <a href="#" onclick="showSection('home')" id="nav-home" class="active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                
+                <div id="admin-links" class="hidden">
+                    <a href="#" onclick="showSection('manage')" id="nav-manage"><i class="fas fa-users-cog"></i> Manage Users</a>
+                </div>
+                <div id="teacher-links" class="hidden">
+                    <a href="#" onclick="showSection('tools')" id="nav-tools"><i class="fas fa-chalkboard-teacher"></i> Class Tools</a>
+                </div>
+                <div id="student-links" class="hidden">
+                     <a href="#" onclick="showSection('student-tools')" id="nav-stools"><i class="fas fa-book-reader"></i> My Class</a>
+                </div>
+                <div id="dev-links" class="hidden">
+                    <a href="#" onclick="showSection('developer')" id="nav-dev"><i class="fas fa-code"></i> Developer Console</a>
+                </div>
+            </nav>
+
+            <div id="return-section" class="hidden" style="margin-top: auto; padding: 20px;">
+                <button onclick="returnToAdmin()" class="btn-return"><i class="fas fa-undo-alt"></i> Return to Main</button>
+            </div>
+
+            <a href="#" onclick="logout()" id="logout-btn" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </aside>
+
+        <main class="main-content">
+            
+            <div id="section-home" class="content-section">
+                <div id="master-panel" class="hidden">
+                    <h2 id="welcome-msg-master">Dashboard</h2>
+                    <p class="sub-header">System Overview</p>
+                    <div class="surveillance-card">
+                        <div class="log-header"><i class="fas fa-video"></i> Surveillance Log</div>
+                        <ul id="surveillance-log" class="log-body"><li>No active meetings.</li></ul>
+                    </div>
+                </div>
+                <div id="generic-welcome" class="hidden">
+                    <h2 id="welcome-msg">Welcome to AuraFlow</h2>
+                    <p>Select an option from the sidebar to begin.</p>
+                </div>
+            </div>
+
+            <div id="section-manage" class="content-section hidden">
+                <h3>Add New User</h3>
+                <div class="add-user-row" style="flex-wrap: wrap;">
+                    <input type="text" id="new-name" placeholder="Name">
+                    <input type="text" id="new-user" placeholder="User ID">
+                    <select id="new-role" onchange="toggleAdminFields(this.value)">
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                    
+                    <div id="field-student" class="dynamic-field">
+                        <input type="text" id="new-class" placeholder="Class" style="width:60px;">
+                        <input type="text" id="new-sec" placeholder="Sec" style="width:60px;">
+                    </div>
+                    <div id="field-teacher" class="dynamic-field hidden">
+                        <input type="text" id="new-subject" placeholder="Subject" style="width:100px;">
+                        <input type="text" id="new-class-teacher" placeholder="Class Teacher Of" style="width:150px;">
+                    </div>
+
+                    <button class="btn-create" onclick="registerUser()">Create</button>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3>User Database</h3>
+                    <button class="btn-db btn-pass" onclick="downloadExcel()">Download Excel</button>
+                </div>
+                <div id="user-list" class="db-list"></div>
+            </div>
+
+            <div id="section-tools" class="content-section hidden">
+                <h3>Teacher Tools</h3>
+                
+                <div class="tool-card" style="border-left: 5px solid #e74c3c;">
+                    <h4>📊 Report Card Manager</h4>
+                    <input type="text" id="rm-search" placeholder="Enter Student Name or ID" class="tool-input">
+                    <div style="display:flex; gap:10px; margin-bottom:10px;">
+                        <input type="text" id="rm-sub" placeholder="Subject" class="tool-input">
+                        <input type="text" id="rm-score" placeholder="Marks" class="tool-input">
+                        <button class="btn-action" style="background:#2ecc71;" onclick="addMarks()">Add Mark</button>
+                    </div>
+                    <button class="btn-action" style="background:#e74c3c;" onclick="clearMarks()">Clear All Marks</button>
+                </div>
+
+                <div class="tool-card" style="margin-top:20px; border-left: 5px solid #2ecc71;">
+                    <h4>👩‍🏫 Classroom Manager</h4>
+                    <div style="display:flex; gap:10px; margin-bottom:15px;">
+                        <input type="text" id="t-filter-class" placeholder="Class" class="tool-input">
+                        <input type="text" id="t-filter-sec" placeholder="Sec" class="tool-input">
+                        <button class="btn-action" style="background:#2ecc71;" onclick="loadClassroom()">Load</button>
+                    </div>
+                    <table class="timetable-table">
+                        <thead><tr><th>ID</th><th>Name</th><th>Action</th></tr></thead>
+                        <tbody id="classroom-list"><tr><td colspan="3" style="text-align:center;">Select class.</td></tr></tbody>
+                    </table>
+                </div>
+
+                <div class="tool-card meeting-card-border" style="margin-top:20px;">
+                    <h4><i class="fas fa-video"></i> Live Class</h4>
+                    <div style="display:flex; gap:10px;">
+                        <input type="text" id="m-topic" placeholder="Topic" class="tool-input">
+                        <input type="text" id="m-link" placeholder="Link" class="tool-input">
+                        <button class="btn-meeting" onclick="createMeeting()">Start Class</button>
+                    </div>
+                </div>
+
+                <div class="tool-card" style="margin-top:20px;">
+                    <h4>📋 Weekly Schedule</h4>
+                    <table class="timetable-table">
+                        <thead><tr><th>Day</th><th>Time</th><th>Subject</th><th>Teacher</th></tr></thead>
+                        <tbody id="t-timetable-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="section-student-tools" class="content-section hidden">
+                <h3>My Classroom</h3>
+                <div class="tool-card meeting-card-border">
+                    <h4>🔴 Active Live Classes</h4>
+                    <ul id="s-meeting-list" class="simple-list"><li>No classes.</li></ul>
+                </div>
+                <div class="dashboard-grid">
+                    <div class="tool-card"><h4>📢 Notices</h4><ul id="s-msg-list" class="simple-list"></ul></div>
+                    <div class="tool-card"><h4>📂 Files</h4><ul id="s-file-list" class="simple-list"></ul></div>
+                </div>
+                <div class="tool-card" style="margin-top:20px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h4>📊 Report Card</h4>
+                        <div class="pct-badge">Overall: <span id="s-overall-pct">0%</span></div>
+                    </div>
+                    <table class="timetable-table">
+                        <thead><tr><th>Subject</th><th>Marks</th><th>Status</th></tr></thead>
+                        <tbody id="s-report-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="section-developer" class="content-section hidden">
+                <h2 style="color:var(--primary);">👨‍💻 Developer Console</h2>
+                <div class="dashboard-grid">
+                    <div class="tool-card" style="border-left: 5px solid #3498db;">
+                        <h4>📝 Add Student</h4>
+                        <input type="text" id="dev-s-id" placeholder="ID" class="tool-input">
+                        <input type="text" id="dev-s-name" placeholder="Name" class="tool-input">
+                        <div style="display:flex; gap:10px;">
+                            <input type="text" id="dev-s-class" placeholder="Class" class="tool-input">
+                            <input type="text" id="dev-s-sec" placeholder="Sec" class="tool-input">
+                        </div>
+                        <button class="btn-action" style="background:#3498db;" onclick="devAddStudent()">Save</button>
+                    </div>
+                    <div class="tool-card" style="border-left: 5px solid #9b59b6;">
+                        <h4>📅 Assign Timetable</h4>
+                        <input type="text" id="dev-t-name" placeholder="Teacher Name" class="tool-input">
+                        <div style="display:flex; gap:10px;">
+                            <select id="dev-tt-day" class="tool-input">
+                                <option>Mo</option><option>Tu</option><option>We</option><option>Th</option><option>Fr</option><option>Sa</option>
+                            </select>
+                            <select id="dev-tt-time" class="tool-input">
+                                <option value="1">Period 1</option><option value="2">Period 2</option>
+                                <option value="3">Period 3</option><option value="4">Period 4</option>
+                                <option value="5">Period 5</option><option value="6">Period 6</option>
+                            </select>
+                        </div>
+                        <input type="text" id="dev-tt-sub" placeholder="Subject" class="tool-input">
+                        <button class="btn-action" style="background:#9b59b6;" onclick="devAddTimetable()">Assign</button>
+                        <button class="btn-action" style="background:#e74c3c; margin-top:10px;" onclick="clearTimetable()">Clear History</button>
+                    </div>
+                </div>
+                <div class="tool-card" style="margin-top:20px;">
+                    <h4>System Timetable Log</h4>
+                    <ul id="dev-tt-log" class="simple-list"><li>No entries.</li></ul>
+                </div>
+            </div>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
