@@ -12,9 +12,9 @@
 <body>
 
     <div id="boot-screen">
-        <div class="logo-circle"><div class="boot-logo-text">AF</div></div>
-        <h2 style="color: white; margin-top: 20px;">AURA OF FLOW</h2>
-        <p style="color: #ccc; margin-top: 10px;">System Initializing...</p>
+        <img src="aura_logo.jpg" alt="AuraFlow Logo" class="boot-logo-img">
+        <h2 style="color: white; margin-top: 20px; letter-spacing: 2px;">AURA OF FLOW</h2>
+        <p style="color: #ccc; margin-top: 10px; font-size: 0.9rem;">System Initializing...</p>
     </div>
 
     <div id="auth-container" class="login-wrapper">
@@ -37,7 +37,10 @@
     <div id="dashboard-container" class="dashboard-layout hidden">
         
         <aside class="sidebar">
-            <div class="brand">AuraFlow</div>
+            <div class="brand">
+                <img src="aura_logo.jpg" alt="Logo" class="sidebar-logo">
+                AuraFlow
+            </div>
             <nav class="menu">
                 <a href="#" onclick="showSection('home')" id="nav-home" class="active">
                     <i class="fas fa-home"></i> Home
@@ -84,8 +87,8 @@
             <div id="section-manage" class="content-section hidden">
                 <h3>Add New User</h3>
                 <div class="add-user-row" style="flex-wrap: wrap;">
-                    <input type="text" id="new-name" placeholder="Name">
-                    <input type="text" id="new-user" placeholder="User ID">
+                    <input type="text" id="new-name" placeholder="Full Name">
+                    <input type="text" id="new-user" placeholder="Username (ID)">
                     <select id="new-role" onchange="toggleAdminFields(this.value)">
                         <option value="Student">Student</option>
                         <option value="Teacher">Teacher</option>
@@ -191,7 +194,7 @@
                         <button class="btn-action" style="background:#3498db;" onclick="devAddStudent()">Save</button>
                     </div>
                     <div class="tool-card" style="border-left: 5px solid #9b59b6;">
-                        <h4>📅 Assign Timetable</h4>
+                        <h4>📅 Manage Timetable</h4>
                         <input type="text" id="dev-t-name" placeholder="Teacher Name" class="tool-input">
                         <div style="display:flex; gap:10px;">
                             <select id="dev-tt-day" class="tool-input">
